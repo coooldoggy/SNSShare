@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ShareActivity">
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_begin="20dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintGuide_end="20dp" />
+
+    <androidx.constraintlayout.widget.Guideline
+        android:id="@+id/guideTop"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintGuide_begin="20dp" />
+
+    <LinearLayout
+        android:id="@+id/ll_text"
+        app:layout_constraintTop_toTopOf="@id/guideTop"
+        app:layout_constraintRight_toRightOf="@id/guideRight"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="@+id/guideLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="TEXT"
+            android:layout_marginRight="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/et_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Hello World!"/>
+
+        <ImageView
+            android:id="@+id/iv_text_share"
+            android:clickable="true"
+            android:src="@drawable/ic_share"
+            android:layout_gravity="center_vertical"
+            android:layout_toRightOf="@+id/et_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        app:layout_constraintTop_toBottomOf="@id/ll_text"
+        app:layout_constraintRight_toRightOf="@id/guideRight"
+        android:orientation="horizontal"
+        app:layout_constraintLeft_toLeftOf="@+id/guideLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="IMAGE"
+            android:layout_marginRight="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <ImageView
+            android:id="@+id/iv_image"
+            android:src="@drawable/chooseimage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"/>
+
+
+        <ImageView
+            android:id="@+id/iv_image_share"
+            android:clickable="true"
+            android:src="@drawable/ic_share"
+            android:layout_gravity="center_vertical"
+            android:layout_toRightOf="@+id/et_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
