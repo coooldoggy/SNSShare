@@ -56,8 +56,7 @@ fun Context.showCameraIntent(context: Context, code: Int) : String{
     chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentArray)
 
     if (cameraIntent.resolveActivity(context.packageManager) != null) {
-        var photoFile: File? = null
-        photoFile = createImageFile()
+        var photoFile = createImageFile()
         cameraIntent.putExtra("PhotoPath",mCameraPath)
         if (photoFile != null){
             mCameraPath = photoFile.absolutePath

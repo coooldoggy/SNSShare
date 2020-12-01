@@ -1,6 +1,7 @@
 package com.coooldoggy.snsshare.common
 
 const val PLATFORM_KEY = "PLATFORM_KEY"
+const val PLATFORM_ALL_AVAILABLE = "PLATFORM_ALL_AVAILABLE"
 const val PLATFORM_KAKAO = "com.kakao.talk"
 
 const val CONTENT_TYPE_TEXT = "text/plain"

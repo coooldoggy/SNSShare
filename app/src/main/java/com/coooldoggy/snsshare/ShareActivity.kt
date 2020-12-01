@@ -44,10 +44,12 @@ class ShareActivity : AppCompatActivity() {
         }
 
         shareBinding.ivImageShare.setOnClickListener {
-            if (imagePath.isEmpty()){
-                share(CONTENT_TYPE_IMG, PLATFORM_KAKAO, imageUri.toString())
+            if (!::imageUri.isInitialized){
+                share(CONTENT_TYPE_IMG, PLATFORM_ALL_AVAILABLE, imagePath)
+                Log.d(TAG, "imagePath = $imagePath")
             }else{
-                share(CONTENT_TYPE_IMG, PLATFORM_KAKAO, imagePath)
+                share(CONTENT_TYPE_IMG, PLATFORM_KAKAO, imageUri)
+                Log.d(TAG, "imageUri = $imageUri")
             }
         }
     }
@@ -58,7 +60,6 @@ class ShareActivity : AppCompatActivity() {
                 shareText(this@ShareActivity, content, platform)
             }
             CONTENT_TYPE_IMG ->{
-                //TODO 갤러리 사진 안됨
                 shareImg(this@ShareActivity, content, platform)
             }
         }
@@ -67,6 +68,12 @@ class ShareActivity : AppCompatActivity() {
     private fun loadUriIntoIV(imageUri : Uri){
         Glide.with(applicationContext).
         load(imageUri).
+        into(shareBinding.ivImage)
+    }
+
+    private fun loadUriIntoIV(pathString : String){
+        Glide.with(applicationContext).
+        load(pathString).
         into(shareBinding.ivImage)
     }
 
@@ -79,7 +86,7 @@ class ShareActivity : AppCompatActivity() {
                      * 카메라로 찍은 경우
                      */
                     if (data?.data == null && data?.clipData == null){
-                        loadUriIntoIV(Uri.parse(imagePath))
+                        loadUriIntoIV(imagePath)
                     }else{
                         val clipData = data.clipData
                         val dataString = data.data

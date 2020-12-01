@@ -8,9 +8,11 @@ fun Context.shareText(context: Context, content: Any, platform: String) {
     Intent(Intent.ACTION_SEND).apply {
         type = CONTENT_TYPE_TEXT
         putExtra(Intent.EXTRA_TEXT, content as String)
-        setPackage(platform)
+        if (platform != PLATFORM_ALL_AVAILABLE){
+            setPackage(platform)
+        }
     }.runCatching {
-        if (isPackageInstalled(context, platform)) {
+        if (isPackageInstalled(context, platform) || platform == PLATFORM_ALL_AVAILABLE) {
             startActivity(Intent.createChooser(this, "공유하기"))
         } else {
             var url = "market://details?id=$platform"
@@ -23,10 +25,16 @@ fun Context.shareText(context: Context, content: Any, platform: String) {
 fun Context.shareImg(context: Context, content: Any, platform: String){
     Intent(Intent.ACTION_SEND).apply {
         type = CONTENT_TYPE_IMG
-        putExtra(Intent.EXTRA_STREAM, Uri.parse(content as String))
-        setPackage(platform)
+        if (content is String) {
+            putExtra(Intent.EXTRA_STREAM, Uri.parse(content))
+        }else{
+            putExtra(Intent.EXTRA_STREAM, content as Uri)
+        }
+        if (platform != PLATFORM_ALL_AVAILABLE){
+            setPackage(platform)
+        }
     }.runCatching {
-        if (isPackageInstalled(context, platform)) {
+        if (isPackageInstalled(context, platform) || platform == PLATFORM_ALL_AVAILABLE) {
             startActivity(Intent.createChooser(this, "공유하기"))
         } else {
             var url = "market://details?id=$platform"
