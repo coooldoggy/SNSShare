@@ -72,7 +72,7 @@ class ShareActivity : AppCompatActivity() {
         }
 
         shareBinding.ivMultiImageShare.setOnClickListener {
-            multishare(CONTENT_TYPE_IMG, platform, photolist)
+            share(CONTENT_TYPE_IMG, platform, photolist)
         }
     }
 
@@ -82,15 +82,11 @@ class ShareActivity : AppCompatActivity() {
                 shareText(this@ShareActivity, content, platform)
             }
             CONTENT_TYPE_IMG -> {
-                shareImg(this@ShareActivity, content, platform)
-            }
-        }
-    }
-
-    private fun multishare(contentType: String, platform: String, content: Any){
-        when (contentType) {
-            CONTENT_TYPE_IMG -> {
-                shareMultiImg(this@ShareActivity, content as ArrayList<Uri>, platform)
+                if (content is ArrayList<*>){
+                    shareMultiImg(this@ShareActivity, content as ArrayList<Uri>, platform)
+                }else{
+                    shareImg(this@ShareActivity, content, platform)
+                }
             }
         }
     }
@@ -101,6 +97,21 @@ class ShareActivity : AppCompatActivity() {
 
     private fun loadUriIntoIV(pathString: String) {
         Glide.with(applicationContext).load(pathString).into(shareBinding.ivImage)
+    }
+
+    private fun addPhoto(data: Uri){
+        when(photolist.size){
+            1 ->{
+                photolist.clear()
+                photolist.add(data)
+                photolist.add(null)
+            }
+            else ->{
+                photolist.remove(photolist[photolist.lastIndex])
+                photolist.add(data)
+                photolist.add(null)
+            }
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
@@ -156,20 +167,10 @@ class ShareActivity : AppCompatActivity() {
                     imagePath = showCameraIntent(this@ShareActivity, CAMERA_REQUEST_CODE)
                 }
             }
-        }
-    }
-
-    private fun addPhoto(data: Uri){
-        when(photolist.size){
-            1 ->{
-                photolist.clear()
-                photolist.add(data)
-                photolist.add(null)
-            }
-            else ->{
-                photolist.remove(photolist[photolist.lastIndex])
-                photolist.add(data)
-                photolist.add(null)
+            PERM_REQUEST_CODE_MULTIPLE ->{
+                if (grantResults.isNotEmpty()) {
+                    showMultipleCameraIntent(this@ShareActivity, CAMERA_REQUEST_MULTIPLE_CODE)
+                }
             }
         }
     }
@@ -215,9 +216,7 @@ class ShareActivity : AppCompatActivity() {
                     viewHolder.addItem.setOnClickListener {
                         if (!context.getCheckPermission(perms)) {
                             context.requestPermissions(
-                                context as Activity,
-                                perms,
-                                PERM_REQUEST_CODE_MULTIPLE
+                                context as Activity, perms, PERM_REQUEST_CODE_MULTIPLE
                             )
                         } else {
                             context.showMultipleCameraIntent(context, CAMERA_REQUEST_MULTIPLE_CODE)

@@ -48,8 +48,6 @@ fun Context.showCameraIntent(context: Context, code: Int) : String{
 
     val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
     val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
-//    galleryIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
-//    fileIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
     val chooser = Intent(Intent.ACTION_CHOOSER)
     chooser.putExtra(Intent.EXTRA_INTENT, fileIntent)
     var intentArray = arrayOf(cameraIntent, galleryIntent)
@@ -73,7 +71,6 @@ fun Context.showCameraIntent(context: Context, code: Int) : String{
 }
 
 fun Context.showMultipleCameraIntent(context: Context, code: Int){
-    var resultUri = arrayListOf<String>()
     val fileIntent = Intent(Intent.ACTION_GET_CONTENT, null)
     fileIntent.type = "image/*"
 
