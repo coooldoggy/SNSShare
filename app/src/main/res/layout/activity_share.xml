@@ -60,6 +60,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ll_image"
         app:layout_constraintTop_toBottomOf="@id/ll_text"
         app:layout_constraintRight_toRightOf="@id/guideRight"
         android:orientation="horizontal"
@@ -88,6 +89,45 @@
             android:layout_toRightOf="@+id/et_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        app:layout_constraintTop_toBottomOf="@id/ll_image"
+        app:layout_constraintRight_toRightOf="@id/guideRight"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toLeftOf="@+id/guideLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="MULTIPLE IMAGE"
+                android:layout_marginRight="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:id="@+id/iv_multi_image_share"
+                android:clickable="true"
+                android:src="@drawable/ic_share"
+                android:layout_gravity="center_vertical"
+                android:layout_toRightOf="@+id/et_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/rv_multi_image"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+            </androidx.recyclerview.widget.RecyclerView>
+
+
 
     </LinearLayout>
 

@@ -72,6 +72,21 @@ fun Context.showCameraIntent(context: Context, code: Int) : String{
     return mCameraPath
 }
 
+fun Context.showMultipleCameraIntent(context: Context, code: Int){
+    var resultUri = arrayListOf<String>()
+    val fileIntent = Intent(Intent.ACTION_GET_CONTENT, null)
+    fileIntent.type = "image/*"
+
+    val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
+    galleryIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+    fileIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
+    val chooser = Intent(Intent.ACTION_CHOOSER)
+    chooser.putExtra(Intent.EXTRA_INTENT, fileIntent)
+    var intentArray = arrayOf(galleryIntent)
+    chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentArray)
+    (context as Activity).startActivityForResult(chooser, code)
+}
+
 @Throws(IOException::class)
 fun createImageFile(): File {
     // Create an image file name
