@@ -10,6 +10,7 @@ import android.graphics.BitmapFactory
 import android.net.Uri
 import android.os.Environment
 import android.os.StrictMode
+import android.provider.ContactsContract
 import android.provider.MediaStore
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
@@ -21,10 +22,14 @@ import java.text.SimpleDateFormat
 import java.util.*
 
 
-val perms: Array<String> = arrayOf(
+val cameraPerms: Array<String> = arrayOf(
     Manifest.permission.CAMERA,
     Manifest.permission.WRITE_EXTERNAL_STORAGE,
     Manifest.permission.READ_EXTERNAL_STORAGE
+)
+
+val contactPerm: Array<String> = arrayOf(
+    Manifest.permission.READ_CONTACTS
 )
 
 fun Context.getCheckPermission(perms: Array<String>): Boolean {
@@ -41,10 +46,10 @@ fun Context.requestPermissions(activity: Activity, perms: Array<String>, permCod
     ActivityCompat.requestPermissions(activity, perms, permCode)
 }
 
-fun Context.showCameraIntent(context: Context, code: Int) : String{
+fun showCameraIntent(context: Context, code: Int) : String{
     var mCameraPath = ""
     val fileIntent = Intent(Intent.ACTION_GET_CONTENT, null)
-    fileIntent.type = "image/*"
+    fileIntent.type = CONTENT_TYPE_IMG
 
     val cameraIntent = Intent(MediaStore.ACTION_IMAGE_CAPTURE)
     val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
@@ -72,7 +77,7 @@ fun Context.showCameraIntent(context: Context, code: Int) : String{
 
 fun Context.showMultipleCameraIntent(context: Context, code: Int){
     val fileIntent = Intent(Intent.ACTION_GET_CONTENT, null)
-    fileIntent.type = "image/*"
+    fileIntent.type = CONTENT_TYPE_IMG
 
     val galleryIntent = Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI)
     galleryIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true)
@@ -82,6 +87,20 @@ fun Context.showMultipleCameraIntent(context: Context, code: Int){
     var intentArray = arrayOf(galleryIntent)
     chooser.putExtra(Intent.EXTRA_INITIAL_INTENTS, intentArray)
     (context as Activity).startActivityForResult(chooser, code)
+}
+
+fun showFileIntent(context: Context, code: Int){
+    val fileIntent = Intent(Intent.ACTION_GET_CONTENT, null)
+    fileIntent.type = CONTENT_TYPE_ALL
+    (context as Activity).startActivityForResult(fileIntent, code)
+}
+
+fun showContactIntent(context: Context, code: Int){
+    Intent(Intent.ACTION_PICK, ContactsContract.Contacts.CONTENT_URI).apply {
+        type = ContactsContract.CommonDataKinds.Phone.CONTENT_TYPE
+    }.runCatching {
+        (context as Activity).startActivityForResult(this, code)
+    }
 }
 
 @Throws(IOException::class)

@@ -5,6 +5,7 @@ import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
+import android.provider.ContactsContract
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
@@ -12,12 +13,11 @@ import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
 import androidx.appcompat.app.AppCompatActivity
-import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.coooldoggy.snsshare.common.*
-import com.coooldoggy.snsshare.databinding.ActivityShareBinding
 import com.bumptech.glide.Glide
+import com.coooldoggy.snsshare.databinding.ActivityShareBinding
 
 class ShareActivity : AppCompatActivity() {
     private val TAG = ShareActivity::class.java.simpleName
@@ -25,6 +25,9 @@ class ShareActivity : AppCompatActivity() {
     private lateinit var platform: String
     private var imagePath = ""
     private lateinit var imageUri: Uri
+    private var filetype = ""
+    private lateinit var fileUri: Uri
+    private lateinit var contactUri: Uri
     private var photolist = arrayListOf<Uri?>()
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -40,15 +43,12 @@ class ShareActivity : AppCompatActivity() {
 
     private fun setView() {
         shareBinding.ivTextShare.setOnClickListener {
-            share(
-                CONTENT_TYPE_TEXT,
-                PLATFORM_KAKAO, shareBinding.etText.text.toString()
-            )
+            share(CONTENT_TYPE_TEXT, platform, shareBinding.etText.text.toString())
         }
 
         shareBinding.ivImage.setOnClickListener {
-            if (!getCheckPermission(perms)) {
-                requestPermissions(this@ShareActivity, perms, PERM_REQUEST_CODE_CAMERA)
+            if (!getCheckPermission(cameraPerms)) {
+                requestPermissions(this@ShareActivity, cameraPerms, PERM_REQUEST_CODE_CAMERA)
             } else {
                 imagePath = showCameraIntent(this@ShareActivity, CAMERA_REQUEST_CODE)
             }
@@ -73,6 +73,26 @@ class ShareActivity : AppCompatActivity() {
 
         shareBinding.ivMultiImageShare.setOnClickListener {
             share(CONTENT_TYPE_IMG, platform, photolist)
+        }
+
+        shareBinding.btChooseFile.setOnClickListener{
+            showFileIntent(this@ShareActivity, FILE_REQUEST_CODE)
+        }
+
+        shareBinding.ivFileShare.setOnClickListener {
+            shareFile(this@ShareActivity, fileUri, filetype, platform)
+        }
+
+        shareBinding.btChooseContact.setOnClickListener {
+            showContactIntent(this@ShareActivity, CONTACT_REQUEST_CODE)
+        }
+
+        shareBinding.ivContactShare.setOnClickListener {
+            if (!getCheckPermission(contactPerm)){
+                requestPermissions(this@ShareActivity, contactPerm, PERM_REQUEST_CODE_CONTACT)
+            }else{
+                shareContact(this@ShareActivity, contactUri, platform)
+            }
         }
     }
 
@@ -156,6 +176,29 @@ class ShareActivity : AppCompatActivity() {
                         }
                     }
                 }
+
+                FILE_REQUEST_CODE ->{
+                    data?.data?.let {
+                        shareBinding.tvFileName.text = it.path
+                        fileUri = it
+                        filetype = contentResolver.getType(it).toString()
+                    }
+                }
+
+                CONTACT_REQUEST_CODE ->{
+                    data?.data?.let { data ->
+                        contactUri = data
+                        var contactArr = arrayOf(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME,
+                            ContactsContract.CommonDataKinds.Phone.NUMBER, ContactsContract.Contacts._ID)
+                        var cursor = contentResolver.query(data, contactArr, null, null, null)
+                        cursor?.let { cursor ->
+                            cursor.moveToFirst()
+                            shareBinding.tvContact.text = "${cursor.getString(0)}${cursor.getString(1)}"
+                            cursor.close()
+                        }
+
+                    }
+                }
             }
         }
     }
@@ -170,6 +213,11 @@ class ShareActivity : AppCompatActivity() {
             PERM_REQUEST_CODE_MULTIPLE ->{
                 if (grantResults.isNotEmpty()) {
                     showMultipleCameraIntent(this@ShareActivity, CAMERA_REQUEST_MULTIPLE_CODE)
+                }
+            }
+            PERM_REQUEST_CODE_CONTACT -> {
+                if (grantResults.isNotEmpty()){
+                    shareContact(this@ShareActivity, contactUri, platform)
                 }
             }
         }
@@ -214,9 +262,9 @@ class ShareActivity : AppCompatActivity() {
                 ADD_PHOTO_TYPE -> {
                     var viewHolder = holder as PhotoAddHolder
                     viewHolder.addItem.setOnClickListener {
-                        if (!context.getCheckPermission(perms)) {
+                        if (!context.getCheckPermission(cameraPerms)) {
                             context.requestPermissions(
-                                context as Activity, perms, PERM_REQUEST_CODE_MULTIPLE
+                                context as Activity, cameraPerms, PERM_REQUEST_CODE_MULTIPLE
                             )
                         } else {
                             context.showMultipleCameraIntent(context, CAMERA_REQUEST_MULTIPLE_CODE)

@@ -93,6 +93,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/ll_multi_image"
         app:layout_constraintTop_toBottomOf="@id/ll_image"
         app:layout_constraintRight_toRightOf="@id/guideRight"
         android:orientation="vertical"
@@ -126,8 +127,109 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
             </androidx.recyclerview.widget.RecyclerView>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_file"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/ll_multi_image"
+        app:layout_constraintRight_toRightOf="@id/guideRight"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toLeftOf="@+id/guideLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="FILE"
+                android:layout_marginRight="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:id="@+id/iv_file_share"
+                android:clickable="true"
+                android:src="@drawable/ic_share"
+                android:layout_gravity="center_vertical"
+                android:layout_toRightOf="@+id/et_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
 
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/bt_choose_file"
+                android:text="file"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/tv_file_name"
+                android:text="file name~~~"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_contact"
+        android:layout_marginTop="10dp"
+        app:layout_constraintTop_toBottomOf="@id/ll_file"
+        app:layout_constraintRight_toRightOf="@id/guideRight"
+        android:orientation="vertical"
+        app:layout_constraintLeft_toLeftOf="@+id/guideLeft"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <TextView
+                android:text="CONTACT"
+                android:layout_marginRight="20dp"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <ImageView
+                android:id="@+id/iv_contact_share"
+                android:clickable="true"
+                android:src="@drawable/ic_share"
+                android:layout_gravity="center_vertical"
+                android:layout_toRightOf="@+id/et_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <Button
+                android:id="@+id/bt_choose_contact"
+                android:text="선택"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
+
+            <TextView
+                android:id="@+id/tv_contact"
+                android:text="01000000000"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"/>
+
+        </LinearLayout>
 
     </LinearLayout>
 

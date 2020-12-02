@@ -8,7 +8,7 @@ android {
     buildToolsVersion "30.0.2"
 
     defaultConfig {
-        applicationId "com.aton.snsshare"
+        applicationId "com.coooldoggy.snsshare"
         minSdkVersion 19
         targetSdkVersion 30
         versionCode 1
