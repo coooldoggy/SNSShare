@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="300dp"
+    android:layout_height="wrap_content">
+
+    <ImageView
+        android:id="@+id/iv_close"
+        android:layout_alignParentRight="true"
+        android:clickable="true"
+        android:layout_marginLeft="5dp"
+        android:src="@drawable/ic_x"
+        android:background="@color/dark"
+        android:layout_width="20dp"
+        android:layout_height="20dp"/>
+
+
+    <LinearLayout
+        android:id="@+id/ll_sns"
+        android:orientation="horizontal"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <ImageView
+            android:id="@+id/iv_kakaotalk"
+            android:clickable="true"
+            android:layout_margin="10dp"
+            android:src="@drawable/kakaotalk"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
+
+        <ImageView
+            android:id="@+id/iv_facebook"
+            android:clickable="true"
+            android:layout_margin="10dp"
+            android:src="@drawable/facebook"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
+
+        <ImageView
+            android:id="@+id/iv_twitter"
+            android:clickable="true"
+            android:layout_margin="10dp"
+            android:src="@drawable/twitter"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
+
+        <ImageView
+            android:id="@+id/iv_message"
+            android:clickable="true"
+            android:layout_margin="10dp"
+            android:src="@drawable/message"
+            android:layout_width="50dp"
+            android:layout_height="50dp"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/ll_url"
+        android:layout_below="@+id/ll_sns"
+        android:layout_centerInParent="true"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/bt_url"
+            android:layout_margin="10dp"
+            android:text="URL"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <Button
+            android:id="@+id/bt_copy"
+            android:layout_margin="10dp"
+            android:text="URL 복사하기"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+    </LinearLayout>
+
+</RelativeLayout>

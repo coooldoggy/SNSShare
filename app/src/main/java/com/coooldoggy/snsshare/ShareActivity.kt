@@ -12,14 +12,13 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.ImageView
 import android.widget.LinearLayout
-import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import com.coooldoggy.snsshare.common.*
 import com.bumptech.glide.Glide
+import com.coooldoggy.snsshare.common.*
 import com.coooldoggy.snsshare.databinding.ActivityShareBinding
 
-class ShareActivity : AppCompatActivity() {
+class ShareActivity : BaseActivity() {
     private val TAG = ShareActivity::class.java.simpleName
     private lateinit var shareBinding: ActivityShareBinding
     private lateinit var platform: String
@@ -43,7 +42,10 @@ class ShareActivity : AppCompatActivity() {
 
     private fun setView() {
         shareBinding.ivTextShare.setOnClickListener {
-            share(CONTENT_TYPE_TEXT, platform, shareBinding.etText.text.toString())
+//            share(CONTENT_TYPE_TEXT, platform, shareBinding.etText.text.toString())
+            ShareDialogFragment.buildDialog(shareBinding.etText.text.toString(), platform).run {
+                showDialogFragment(this, "", R.id.dialog_sns_dialog_show_request)
+            }
         }
 
         shareBinding.ivImage.setOnClickListener {
@@ -222,7 +224,6 @@ class ShareActivity : AppCompatActivity() {
             }
         }
     }
-
 
     class PhotoListAdapter(val context: Context, val photoList: ArrayList<Uri?>) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {

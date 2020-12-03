@@ -25,6 +25,15 @@ fun Context.shareText(context: Context, content: Any, platform: String) {
     }
 }
 
+fun Context.sendSMSText(context: Context, content: Any){
+    Intent(Intent.ACTION_VIEW, Uri.parse("sms:")).apply {
+        type = PLATFORM_SMS
+        putExtra("sms_body", content as String)
+    }.runCatching {
+        startActivity(Intent.createChooser(this, "공유하기"))
+    }
+}
+
 /**
  * image 공유
  */

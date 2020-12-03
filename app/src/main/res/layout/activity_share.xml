@@ -32,6 +32,7 @@
         app:layout_constraintTop_toTopOf="@id/guideTop"
         app:layout_constraintRight_toRightOf="@id/guideRight"
         android:orientation="horizontal"
+        android:focusable="true"
         app:layout_constraintLeft_toLeftOf="@+id/guideLeft"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content">
@@ -46,7 +47,7 @@
             android:id="@+id/et_text"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Hello World!"/>
+            android:text="http://www.naver.com"/>
 
         <ImageView
             android:id="@+id/iv_text_share"
